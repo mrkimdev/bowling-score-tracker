@@ -1,23 +1,30 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { CoreModule } from './core/core.module';
 
 describe('AppController', () => {
   let appController: AppController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
+      imports: [CoreModule],
       controllers: [AppController],
-      providers: [AppService],
+      providers: [],
     }).compile();
 
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+  describe('/health', () => {
+    it('should return "OK"', () => {
+      expect(appController.health()).toBe('OK');
+    });
+  });
+
+  describe('/metrics', () => {
+    it('should return metrics', () => {
+      expect(appController.getMetrics()).toBeDefined();
     });
   });
 });

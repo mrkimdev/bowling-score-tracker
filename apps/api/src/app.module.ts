@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
-
-import { LinksModule } from './links/links.module';
-
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
-
+import { GamesModule } from './games/games.module';
+import { FramesModule } from './frames/frames.module';
+import { CoreModule } from './core/core.module';
 @Module({
-  imports: [LinksModule],
+  imports: [ConfigModule.forRoot(), CoreModule, GamesModule, FramesModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule {}
