@@ -45,7 +45,6 @@ export class GamesService {
       where: { id },
       include: {
         frames: true,
-        scores: true,
       },
     });
 

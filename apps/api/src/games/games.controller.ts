@@ -32,7 +32,7 @@ export class GamesController {
   @Post(':id/end-game')
   @ApiOperation({ summary: 'End a game by ID' })
   @ApiCreatedResponse({ type: GameDto, description: 'Game has been successfully ended.'})
-  async createFrame(@Param('id') id: string): Promise<GameDto> {
+  async endGame(@Param('id') id: string): Promise<GameDto> {
     return this.gamesService.endGame(id);
   }
 }
