@@ -82,7 +82,7 @@ describe('GamesController', () => {
     });
   });
 
-  describe('POST /games/:id/end-game', () => {
+  describe('POST /games/:id/end', () => {
     it('should end a game', async () => {
       const gameId = randomUUID();
       const endDate = new Date();

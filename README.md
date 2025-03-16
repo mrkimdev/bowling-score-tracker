@@ -1,13 +1,27 @@
-# Turborepo starter
+# Bowling Score Tracker
 
-This is a community-maintained example. If you experience a problem, please submit a pull request with a fix. GitHub Issues will be closed.
+This project is a monorepo project built with Turbo. All apps are setup follows [12 Factor App](https://12factor.net/) principles.
 
-## Using this example
+## Getting Started
 
-Run the following command:
+System requires Node 20.0.0 or higher.
+
+First, install the dependencies
 
 ```bash
-npx create-turbo@latest -e with-nestjs
+npm install
+```
+
+Then, run the development server
+
+```bash
+npm run dev
+```
+
+Or, run the development server with docker compose
+
+```bash
+docker compose up
 ```
 
 ## What's inside?
@@ -16,105 +30,143 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
-    .
-    ├── apps
-    │   ├── api                       # NestJS app (https://nestjs.com).
-    │   └── web                       # Next.js app (https://nextjs.org).
-    └── packages
-        ├── @repo/api                 # Shared `NestJS` resources.
-        ├── @repo/eslint-config       # `eslint` configurations (includes `prettier`)
-        ├── @repo/jest-config         # `jest` configurations
-        ├── @repo/typescript-config   # `tsconfig.json`s used throughout the monorepo
-        └── @repo/ui                  # Shareable stub React component library.
+```bash
+.
+├── apps
+│   ├── api                       # NestJS app (https://nestjs.com).
+│   └── web                       # Next.js app (https://nextjs.org).
+└── packages
+    ├── @repo/eslint-config       # `eslint` configurations (includes `prettier`)
+    ├── @repo/jest-config         # `jest` configurations
+    ├── @repo/typescript-config   # `tsconfig.json`s used throughout the monorepo
+    ├── @repo/ui                  # Shareable stub React component library.
+    └── @repo/util                # Shared business logic, helpers, etc.
+```
 
 Each package and application are 100% [TypeScript](https://www.typescriptlang.org/) safe.
 
-### Utilities
+## Commands
 
-This `Turborepo` has some additional tools already set for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type-safety
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-- [Jest](https://prettier.io) & [Playwright](https://playwright.dev/) for testing
-
-### Commands
-
-This `Turborepo` already configured useful commands for all your apps and packages.
-
-#### Build
+### Run the development server
 
 ```bash
-# Will build all the app & packages with the supported `build` script.
-pnpm run build
-
-# ℹ️ If you plan to only build apps individually,
-# Please make sure you've built the packages first.
+npm run dev -w=api # run api server
+npm run dev -w=web # run web server
+npm run dev        # run all servers
 ```
 
-#### Develop
+### Run Unit Tests
 
 ```bash
-# Will run the development server for all the app & packages with the supported `dev` script.
-pnpm run dev
+npm run test -w=api # run api unit tests
+npm run test -w=web # run web unit test
+npm run test        # run all unit tests
+npm run test:watch  # run all unit tests in watch mode
 ```
 
-#### test
+### Build the project
 
 ```bash
-# Will launch a test suites for all the app & packages with the supported `test` script.
-pnpm run test
-
-# You can launch e2e testes with `test:e2e`
-pnpm run test:e2e
-
-# See `@repo/jest-config` to customize the behavior.
+npm run build        # build all apps & packages
+npm run build -w=api # build app/api
+npm run build -w=web # run web e2e tests
 ```
 
-#### Lint
+## Technical Stack
 
-```bash
-# Will lint all the app & packages with the supported `lint` script.
-# See `@repo/eslint-config` to customize the behavior.
-pnpm run lint
+- [NestJS](https://nestjs.com/)
+- [NextJS](https://nextjs.org/)
+- [Prisma](https://www.prisma.io/)
+- [Jest](https://jestjs.io/)
+- [Playwright](https://playwright.dev/)
+- [Docker](https://www.docker.com/)
+
+## System Design
+
+### API
+
+![API](./docs/api.png)
+
+### DB Schema
+
+```prisma
+model Game {
+  id        String   @id @default(uuid())
+  created_at DateTime @default(now())
+  ended_at   DateTime?
+  players   String
+  frames    GameFrame[]
+  scores    GameScore[]
+}
+
+model GameFrame {
+  id          String  @id @default(uuid())
+  frame_number Int
+  roll_1      Int
+  roll_2      Int?
+  roll_3      Int?
+  game_id     String
+  game        Game    @relation(fields: [game_id], references: [id])
+  player_order Int  
+}
+
+model GameScore {
+  id          String  @id @default(uuid())
+  total_score Int
+  game_id      String
+  game        Game    @relation(fields: [game_id], references: [id])
+  player_order Int  
+}
 ```
 
-#### Format
+### Sequence Diagram
 
-```bash
-# Will format all the supported `.ts,.js,json,.tsx,.jsx` files.
-# See `@repo/eslint-config/prettier-base.js` to customize the behavior.
-pnpm format
+```mermaid
+sequenceDiagram
+    participant User
+    participant Web
+    participant API
+    participant @repo/util/bowling-score
+
+    User->>Web: Enter Player Names & Start Game
+    Web->>API: POST /v1/games
+    API-->>Web: Return GameID
+    Web-->>User: Display Frame Sheet
+
+    User->>Web: Roll Ball & Entering Frame Sheet
+    Web->>API: POST /v1/games/:gameId/frames
+    Web->>API: PUT /v1/games/:gameId/frames/:frameId
+    Web->> @repo/util/bowling-score : Calculate Score in realtime
+    API->> @repo/util/bowling-score : Validate Frame Data
+    Web->>User: Display Score in realtime
+
+    User->>Web: End Game
+    Web->>API: POST /v1/games/:gameId/end
+    API->> @repo/util/bowling-score : Calculate Final Score
+    API-->>Web: Return Game Result
+    Web->>User: Display Final Score
 ```
 
-### Remote Caching
+```mermaid
+sequenceDiagram
+    participant User
+    participant Web
+    participant API
+    
+    User->>Web: View Game History
+    Web->>API: GET /v1/games
+    API-->>Web: Return Game History
+    Web->>User: Display Game History
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```bash
-npx turbo login
+    User->>Web: Select Game to View
+    Web->>API: GET /v1/games/:gameId
+    API-->>Web: Return Game Details
+    Web->>User: Display Game Details
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Improvements
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```bash
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+- End2End Testing
+- CI/CD Pipeline
+- Error Handling
+- Logging
