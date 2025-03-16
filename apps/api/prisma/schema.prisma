@@ -17,6 +17,7 @@ datasource db {
 model Game {
   id        String   @id @default(uuid())
   created_at DateTime @default(now())
+  ended_at   DateTime?
   players   String
   frames    GameFrame[]
   scores    GameScore[]
