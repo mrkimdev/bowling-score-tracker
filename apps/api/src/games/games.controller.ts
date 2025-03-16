@@ -24,14 +24,14 @@ export class GamesController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a game by ID' })
-  @ApiOkResponse({ description: 'Game has been successfully retrieved.'})
+  @ApiOkResponse({ type: GameDto, description: 'Game has been successfully retrieved.'})
   async findOne(@Param('id') id: string): Promise<GameDto> {
     return this.gamesService.findOne(id);
   }
 
   @Post(':id/end-game')
   @ApiOperation({ summary: 'End a game by ID' })
-  @ApiCreatedResponse({ description: 'Game has been successfully ended.'})
+  @ApiCreatedResponse({ type: GameDto, description: 'Game has been successfully ended.'})
   async createFrame(@Param('id') id: string): Promise<GameDto> {
     return this.gamesService.endGame(id);
   }

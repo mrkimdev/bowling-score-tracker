@@ -16,7 +16,7 @@ export class GameDto {
   ended_at: string;
   @ApiProperty({ description: 'The players of the game' })
   players: string[];
-  @ApiProperty({ description: 'The frames of the game' })
+  @ApiProperty({ type: [CreateFrameDto], description: 'The frames of the game' })
   frames: CreateFrameDto[];
   @ApiProperty({ description: 'The scores of the game' })
   scores: number[];
