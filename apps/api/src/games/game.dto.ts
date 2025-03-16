@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateFrameDto } from "@/frames/frame.dto";
+import { FrameDto } from "@/frames/frame.dto";
 import { Game, GameFrame, GameScore } from '@prisma/client';
 
 export class CreateGameDto {
@@ -13,11 +13,11 @@ export class GameDto {
   @ApiProperty({ description: 'The creation time of the game' })
   created_at: string;
   @ApiProperty({ description: 'The end time of the game' })
-  ended_at: string;
+  ended_at?: string;
   @ApiProperty({ description: 'The players of the game' })
   players: string[];
-  @ApiProperty({ type: [CreateFrameDto], description: 'The frames of the game' })
-  frames: CreateFrameDto[];
+  @ApiProperty({ type: [FrameDto], description: 'The frames of the game' })
+  frames: FrameDto[];
   @ApiProperty({ description: 'The scores of the game' })
   scores: number[];
 
@@ -27,7 +27,7 @@ export class GameDto {
     dto.created_at = entity.created_at.toISOString();
     dto.ended_at = entity.ended_at?.toISOString();
     dto.players = entity.players.split(',');
-    dto.frames = frames.sort((a, b) => a.player_order - b.player_order).map(item => CreateFrameDto.fromEntity(item));
+    dto.frames = frames.sort((a, b) => a.player_order - b.player_order).map(item => FrameDto.fromEntity(item));
     dto.scores = scores.sort((a, b) => a.player_order - b.player_order).map(item => item.total_score);
     return dto;
   }

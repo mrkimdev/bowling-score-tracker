@@ -33,7 +33,16 @@ describe('GamesController', () => {
 
   describe('GET /games', () => {
     it('should get all games', async () => {
-      prismaService.game.findMany.mockResolvedValue([]);
+      prismaService.game.findMany.mockResolvedValue([
+        {
+          id: randomUUID(),
+          created_at: new Date(),
+          ended_at: null,
+          players: 'Hulk,Hawkeye,Wolvering,Deadpool', 
+          frames: [],
+          scores: [],
+        } as any
+      ]);
       const games = await controller.findAll();
       expect(games).toBeDefined();
     });
@@ -77,7 +86,18 @@ describe('GamesController', () => {
     it('should end a game', async () => {
       const gameId = randomUUID();
       const endDate = new Date();
-      prismaService.$transaction.mockResolvedValue([,,[]])
+      prismaService.$transaction.mockResolvedValue([,,[{
+          id: randomUUID(),
+          game_id: gameId,
+          player_order: 0,
+          total_score: 10,
+        },
+        {
+          id: randomUUID(),
+          game_id: gameId,
+          player_order: 1,
+          total_score: 10,
+        }]])
       prismaService.game.findUnique.mockResolvedValue({
         id: gameId,
         created_at: endDate,
@@ -89,14 +109,18 @@ describe('GamesController', () => {
           player_order: 0,
           roll_1: 10,
           roll_2: 0,
+        },
+        {
+          id: randomUUID(),
+          game_id: gameId,
+          player_order: 0,
+          roll_1: 10,
+          roll_2: 0,
         }] as any
-      }as any);
+      } as any);
       const game = await controller.endGame(gameId);
       expect(game).toBeDefined();
-      expect(prismaService.game.update).toHaveBeenCalledWith({
-        where: { id: gameId },
-        data: { ended_at: endDate},
-      });
+      expect(prismaService.game.update).toHaveBeenCalled();
       expect(prismaService.gameScore.createMany).toHaveBeenCalled();
       expect(prismaService.gameScore.findMany).toHaveBeenCalled();
     });

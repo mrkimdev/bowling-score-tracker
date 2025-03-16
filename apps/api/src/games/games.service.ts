@@ -16,7 +16,6 @@ export class GamesService {
     return {
       id: record.id,
       created_at: record.created_at.toISOString(),
-      ended_at: record.ended_at?.toISOString(),
       players: record.players.split(','),
       frames: [],
       scores: [],
