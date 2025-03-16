@@ -8,8 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('v1', {
     exclude: [
+      { path: '/', method: RequestMethod.GET },
       { path: 'health', method: RequestMethod.GET },
-      { path: 'docs', method: RequestMethod.GET },
       { path: 'metrics', method: RequestMethod.GET }
     ],
   });
@@ -21,7 +21,7 @@ async function bootstrap() {
   .addTag('bowling-score-tracker')
   .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, documentFactory);
+  SwaggerModule.setup('/', app, documentFactory);
   await app.listen(3000);
 }
 bootstrap();
