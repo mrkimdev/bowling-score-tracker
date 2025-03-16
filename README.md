@@ -45,17 +45,17 @@ This Turborepo includes the following packages/apps:
 
 Each package and application are 100% [TypeScript](https://www.typescriptlang.org/) safe.
 
-## Commands
+### Commands
 
-### Run the development server
+#### Run the development server
 
 ```bash
 npm run dev -w=api # run api server
 npm run dev -w=web # run web server
-npm run dev        # run all servers
+npm run dev        # run all packages & app in dev mode
 ```
 
-### Run Unit Tests
+#### Run Unit Tests
 
 ```bash
 npm run test -w=api # run api unit tests
@@ -64,22 +64,23 @@ npm run test        # run all unit tests
 npm run test:watch  # run all unit tests in watch mode
 ```
 
-### Build the project
+#### Build the project
 
 ```bash
 npm run build        # build all apps & packages
 npm run build -w=api # build app/api
-npm run build -w=web # run web e2e tests
+npm run build -w=web # build app/web
 ```
 
 ## Technical Stack
 
-- [NestJS](https://nestjs.com/)
-- [NextJS](https://nextjs.org/)
-- [Prisma](https://www.prisma.io/)
-- [Jest](https://jestjs.io/)
-- [Playwright](https://playwright.dev/)
-- [Docker](https://www.docker.com/)
+- [Turbo](https://turbo.build/repo) : Monorepo (to manage multiple apps & packages with sharing configs & logics)
+- [NestJS](https://nestjs.com/) : NodeJS Framework
+- [NextJS](https://nextjs.org/) : React Framework
+- [Prisma](https://www.prisma.io/) : ORM
+- [Jest](https://jestjs.io/) : Unit Testing Framework
+- [Playwright](https://playwright.dev/) : E2E Testing
+- [Docker](https://www.docker.com/) : Containerization
 
 ## System Design
 
@@ -119,7 +120,9 @@ model GameScore {
 }
 ```
 
-### Sequence Diagram
+### Flows
+
+#### Start & Play Game
 
 ```mermaid
 sequenceDiagram
@@ -134,18 +137,22 @@ sequenceDiagram
     Web-->>User: Display Frame Sheet
 
     User->>Web: Roll Ball & Entering Frame Sheet
+    Web->> @repo/util/bowling-score  : calculate Score
+    API->> @repo/util/bowling-score  : validate Frame Data
+    @repo/util/bowling-score -->> Web: real time score
     Web->>API: POST /v1/games/:gameId/frames
     Web->>API: PUT /v1/games/:gameId/frames/:frameId
-    Web->> @repo/util/bowling-score : Calculate Score in realtime
-    API->> @repo/util/bowling-score : Validate Frame Data
-    Web->>User: Display Score in realtime
+    Web-->>User: Display Score in realtime
 
     User->>Web: End Game
     Web->>API: POST /v1/games/:gameId/end
-    API->> @repo/util/bowling-score : Calculate Final Score
+    API->> @repo/util/bowling-score  : Calculate Final Score
+    @repo/util/bowling-score -->> API: Final Score
     API-->>Web: Return Game Result
-    Web->>User: Display Final Score
+    Web-->>User: Display Final Score
 ```
+
+#### View Game History
 
 ```mermaid
 sequenceDiagram
@@ -156,15 +163,15 @@ sequenceDiagram
     User->>Web: View Game History
     Web->>API: GET /v1/games
     API-->>Web: Return Game History
-    Web->>User: Display Game History
+    Web-->>User: Display Game History
 
     User->>Web: Select Game to View
     Web->>API: GET /v1/games/:gameId
     API-->>Web: Return Game Details
-    Web->>User: Display Game Details
+    Web-->>User: Display Game Details
 ```
 
-### Improvements
+## Improvements
 
 - End2End Testing
 - CI/CD Pipeline
