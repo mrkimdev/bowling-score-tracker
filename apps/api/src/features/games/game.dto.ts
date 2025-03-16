@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { FrameDto } from "@/frames/frame.dto";
+import { FrameDto } from "@/features/frames/frame.dto";
 import { Game, GameFrame, GameScore } from '@prisma/client';
 
 export class CreateGameDto {

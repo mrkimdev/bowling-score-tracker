@@ -1,25 +1,31 @@
-# With-NestJs | API
+# API
 
-## Getting Started
+This is the API for the ticket system.
 
-First, run the development server:
+## Folder Structure
 
-```bash
-pnpm run dev
+```md
+apps/api/
+├── src/
+│   ├── core              // core modules (config, logger, ... etc)
+│   ├── features          // feature modules (auth, user, ticket, ... etc)
+│   ├── app.module.ts     // main module
+├── package.json          // package.json
 ```
 
-By default, your server will run at [http://localhost:3000](http://localhost:3000). You can use your favorite API platform like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/) to test your APIs
+## Commands
 
-You can start editing the demo **APIs** by modifying [linksService](./src/links/links.service.ts) provider.
+- `npm dev`             : run dev server
+- `npm build`           : build production
+- `npm start`           : run application
+- `npm start:debug`     : run application with debug
+- `npm start:prod`      : run production
+- `npm lint`            : type check
+- `npm test`            : run tests
+- `npm test:watch`      : run tests in watch mode
+- `npm test:debug`      : run tests with debug
+- `npm test:e2e`        : run e2e tests
 
-### ⚠️ Note about build
+## Environment Variables
 
-If you plan to only build this app. Please make sure you've built the packages first.
-
-## Learn More
-
-To learn more about NestJs, take a look at the following resources:
-
-- [Official Documentation](https://docs.nestjs.com) - A progressive Node.js framework for building efficient, reliable and scalable server-side applications.
-- [Official NestJS Courses](https://courses.nestjs.com) - Learn everything you need to master NestJS and tackle modern backend applications at any scale.
-- [GitHub Repo](https://github.com/nestjs/nest)
+- `DATABASE_URL`        : database url
