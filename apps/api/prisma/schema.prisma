@@ -26,10 +26,10 @@ model Game {
 model GameFrame {
   id          String  @id @default(uuid())
   frame_number Int
-  roll_1      String
-  roll_2      String?
-  roll_3      String?
-  game_id      String
+  roll_1      Int
+  roll_2      Int?
+  roll_3      Int?
+  game_id     String
   game        Game    @relation(fields: [game_id], references: [id])
   player_order Int  
 }

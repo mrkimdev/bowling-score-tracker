@@ -3,12 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
-  "exports": {
-    "./bowling-score": {
-      "types": "./src/bowling-score.ts",
-      "default": "./dist/bowling-score.js"
-    }
-  },
+  "sideEffects": false,
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "dev": "tsc --watch",

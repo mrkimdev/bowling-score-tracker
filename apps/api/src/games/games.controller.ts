@@ -2,7 +2,7 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { CreateGameDto, GameDto } from './game.dto';
-import { ApiOperation, ApiQuery, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('games')
 export class GamesController {

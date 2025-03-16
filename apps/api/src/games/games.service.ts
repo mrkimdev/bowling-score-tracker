@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/core/services/prisma.service';
 import { CreateGameDto, GameDto } from './game.dto';
-
+import { calculateScore } from '@repo/util/dist/bowling-score';
 @Injectable()
 export class GamesService {
   constructor(private readonly prisma: PrismaService) {}
@@ -15,7 +15,8 @@ export class GamesService {
     });
     return {
       id: record.id,
-      created_at: record.created_at,
+      created_at: record.created_at.toISOString(),
+      ended_at: record.ended_at?.toISOString(),
       players: record.players.split(','),
       frames: [],
       scores: [],
@@ -31,41 +32,49 @@ export class GamesService {
       },
     });
 
-    return {
-      id: game.id,
-      created_at: game.created_at,
-      players: game.players.split(','),
-      frames: game.frames.sort((a, b) => a.player_order - b.player_order).map(item => ({
-        frame_number: item.frame_number,
-        roll_1: item.roll_1,
-        roll_2: item.roll_2,
-        roll_3: item.roll_3,
-        game_id: item.game_id,
-        player_order: item.player_order,
-      })),
-      scores: game.scores.sort((a, b) => a.player_order - b.player_order).map(item => item.total_score),
-    };
+    return GameDto.fromEntity(game, game.frames, game.scores);
   }
 
   async findAll(): Promise<GameDto[]> {
     const games = await this.prisma.game.findMany({ include: { frames: true, scores: true } });
-    return games.map(game => ({
-      id: game.id,
-      created_at: game.created_at,
-      players: game.players.split(','),
-      frames: game.frames.sort((a, b) => a.player_order - b.player_order).map(item => ({
-        frame_number: item.frame_number,
-        roll_1: item.roll_1,
-        roll_2: item.roll_2,
-        roll_3: item.roll_3,
-        game_id: item.game_id,
-        player_order: item.player_order,
-      })),
-      scores: game.scores.sort((a, b) => a.player_order - b.player_order).map(item => item.total_score),
-    }))
+    return games.map(game => (GameDto.fromEntity(game, game.frames, game.scores)))
   }
 
   async endGame(id: string): Promise<GameDto> {
-    return this.findOne(id);
+    const game = await this.prisma.game.findUnique({
+      where: { id },
+      include: {
+        frames: true,
+        scores: true,
+      },
+    });
+
+    const [,,scores] = await this.prisma.$transaction([
+      this.prisma.game.update({
+        where: { id },
+        data: { ended_at: new Date() },
+      }),
+      this.prisma.gameScore.createMany({
+        data: game.players
+          .split(',')
+          .map((player, index) => ({
+            game_id: id,
+            player_order: index,
+            total_score: calculateScore(game.frames
+              .filter(frame => frame.player_order === index)
+              .map(frame => ({
+                roll_1: frame.roll_1,
+                roll_2: frame.roll_2,
+                roll_3: frame.roll_3,
+              })
+            ))
+          })
+        ),
+      }),
+      this.prisma.gameScore.findMany({
+        where: { game_id: id },
+      }),
+    ]);
+    return GameDto.fromEntity(game,game.frames,scores);
   }
 }
