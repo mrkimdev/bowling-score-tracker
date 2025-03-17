@@ -5,8 +5,10 @@ export default function GameLayout({
   children: React.ReactNode
 }>) {
   return (
-    <main className="flex items-center justify-center min-h-svh">
-      {children}
+    <main className="min-h-svh">
+      <div className="mt-20 mx-auto max-w-[996px] px-4">
+        {children}
+      </div>
     </main>
   )
 }
