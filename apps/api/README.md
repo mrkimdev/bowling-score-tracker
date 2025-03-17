@@ -1,6 +1,6 @@
 # API
 
-This is the API for the ticket system.
+This is the API for the bowling game system.
 
 ## Folder Structure
 
