@@ -1,8 +1,8 @@
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@/core/services/prisma.service';
 import { CreateGameDto, GameDto } from './game.dto';
-import { calculateScore } from '@repo/util/dist/bowling-score';
+import { calculateScore } from '@repo/util/bowling-score';
 @Injectable()
 export class GamesService {
   constructor(private readonly prisma: PrismaService) {}
@@ -31,6 +31,10 @@ export class GamesService {
       },
     });
 
+    if (!game) {
+      throw new NotFoundException('Game not found');
+    }
+
     return GameDto.fromEntity(game, game.frames, game.scores);
   }
 
@@ -47,6 +51,14 @@ export class GamesService {
       },
     });
 
+    if (!game) {
+      throw new NotFoundException('Game not found');
+    }
+
+    if (!game.frames || game.frames.length === 0) {
+      throw new InternalServerErrorException('Games has no frames');
+    }
+
     const [,,scores] = await this.prisma.$transaction([
       this.prisma.game.update({
         where: { id },
@@ -62,8 +74,8 @@ export class GamesService {
               .filter(frame => frame.player_order === index)
               .map(frame => ({
                 roll_1: frame.roll_1,
-                roll_2: frame.roll_2,
-                roll_3: frame.roll_3,
+                roll_2: frame.roll_2 || 0,
+                roll_3: frame.roll_3 || 0,
               })
             ))
           })

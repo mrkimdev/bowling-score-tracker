@@ -50,26 +50,26 @@ Each package and application are 100% [TypeScript](https://www.typescriptlang.or
 #### Run the development server
 
 ```bash
-npm run dev -w=api # run api server
-npm run dev -w=web # run web server
 npm run dev        # run all packages & app in dev mode
+npm run dev -w=api # run apps/api dev server
+npm run dev -w=web # run apps/web dev server
 ```
 
-#### Run Unit Tests
+#### Run unit tests
 
 ```bash
-npm run test -w=api # run api unit tests
-npm run test -w=web # run web unit test
 npm run test        # run all unit tests
 npm run test:watch  # run all unit tests in watch mode
+npm run test -w=api # run apps/api unit tests
+npm run test -w=web # run apps/web unit test
 ```
 
-#### Build the project
+#### Build apps & packages
 
 ```bash
 npm run build        # build all apps & packages
-npm run build -w=api # build app/api
-npm run build -w=web # build app/web
+npm run build -w=api # build apps/api
+npm run build -w=web # build apps/web
 ```
 
 ## Technical Stack
@@ -171,9 +171,10 @@ sequenceDiagram
     Web-->>User: Display Game Details
 ```
 
-## Improvements
+## Further Improvements
 
-- End2End Testing
+- E2E Testing
 - CI/CD Pipeline
-- Error Handling
+- Correlation ID
+- Standard Rest API Response
 - Logging

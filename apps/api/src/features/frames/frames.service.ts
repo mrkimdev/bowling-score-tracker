@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '@/core/services/prisma.service';
 import { FrameDto } from './frame.dto';
-import { validateFrameData, MAX_FRAMES } from '@repo/util/dist/bowling-score';
+import { validateFrameData, MAX_FRAMES } from '@repo/util/bowling-score';
 
 const LAST_FRAME_INDEX = MAX_FRAMES - 1;
 @Injectable()

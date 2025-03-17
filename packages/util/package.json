@@ -4,6 +4,13 @@
   "main": "index.js",
   "private": true,
   "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.js",
+    "./bowling-score": {
+      "types": "./src/bowling-score.ts",
+      "default": "./dist/bowling-score.js"
+    }
+  },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "dev": "tsc --watch",

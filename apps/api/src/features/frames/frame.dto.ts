@@ -18,8 +18,8 @@ export class FrameDto {
     const dto = new FrameDto();
     dto.frame_number = entity.frame_number;
     dto.roll_1 = entity.roll_1;
-    dto.roll_2 = entity.roll_2;
-    dto.roll_3 = entity.roll_3;
+    dto.roll_2 = entity.roll_2 || undefined;
+    dto.roll_3 = entity.roll_3 || undefined;
     dto.game_id = entity.game_id;
     dto.player_order = entity.player_order;
     return dto;
