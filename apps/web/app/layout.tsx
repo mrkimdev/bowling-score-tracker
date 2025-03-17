@@ -13,6 +13,9 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
+import { Toaster } from "@repo/ui/components/sonner"
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -23,6 +26,7 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
+        <Toaster />
         <Providers>{children}</Providers>
       </body>
     </html>
