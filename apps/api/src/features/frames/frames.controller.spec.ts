@@ -58,30 +58,33 @@ describe('FramesController', () => {
 
   describe('PUT /games/:gameId/frames/:frameId', () => {
     it('should update a frame', async () => {
-       const existedFrame = {
+      const existedFrame = {
+        id: randomUUID(),
         game_id: '1',
         player_order: 0,
         roll_1: 10,
         frame_number: 1,
-      }
+      };
       const frameId = randomUUID();
-        prismaService.gameFrame.update.mockResolvedValue({
-        id: randomUUID(),
-        ...existedFrame
+      prismaService.gameFrame.update.mockResolvedValue({
+        ...existedFrame,
       } as any);
       const frame = await controller.update(frameId, existedFrame);
       expect(frame).toBeDefined();
       expect(prismaService.gameFrame.update).toHaveBeenCalled();
-    })    
+    });
 
     it('should throw BadRequestException when frame data is invalid', async () => {
       const invalidFrame = {
+        id: randomUUID(),
         game_id: '1',
         player_order: 0,
         roll_1: 11,
         frame_number: 1,
-      }
-      await expect(controller.update(randomUUID(), invalidFrame)).rejects.toThrow(BadRequestException);
-    })
+      };
+      await expect(
+        controller.update(randomUUID(), invalidFrame),
+      ).rejects.toThrow(BadRequestException);
+    });
   })
 });

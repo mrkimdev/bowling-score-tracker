@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '@/core/services/prisma.service';
-import { FrameDto } from './frame.dto';
+import { CreateFrameDto, FrameDto } from './frame.dto';
 import { validateFrameData, MAX_FRAMES } from '@repo/util/bowling-score';
 
 const LAST_FRAME_INDEX = MAX_FRAMES - 1;
@@ -8,24 +8,44 @@ const LAST_FRAME_INDEX = MAX_FRAMES - 1;
 export class FramesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createFrameDto: FrameDto) {
-    if (!validateFrameData(createFrameDto, LAST_FRAME_INDEX === createFrameDto.frame_number)) {
+  async create(createFrameDto: CreateFrameDto) {
+    if (
+      !validateFrameData(
+        createFrameDto,
+        LAST_FRAME_INDEX === createFrameDto.frame_number,
+      )
+    ) {
       throw new BadRequestException('Invalid frame data');
     }
     const newFrame = await this.prisma.gameFrame.create({
-      data: createFrameDto
+      data: {
+        ...createFrameDto,
+        roll_1: +createFrameDto.roll_1,
+        roll_2: createFrameDto.roll_2 ? +createFrameDto.roll_2 : undefined,
+        roll_3: createFrameDto.roll_3 ? +createFrameDto.roll_3 : undefined,
+      },
     });
     return FrameDto.fromEntity(newFrame);
-  } 
+  }
 
   async update(id: string, updateFrameDto: FrameDto) {
-    if (!validateFrameData(updateFrameDto, LAST_FRAME_INDEX === updateFrameDto.frame_number)) {
+    if (
+      !validateFrameData(
+        updateFrameDto,
+        LAST_FRAME_INDEX === updateFrameDto.frame_number,
+      )
+    ) {
       throw new BadRequestException('Invalid frame data');
     }
     const updatedFrame = await this.prisma.gameFrame.update({
       where: { id },
-      data: updateFrameDto,
-    }); 
+      data: {
+        ...updateFrameDto,
+        roll_1: +updateFrameDto.roll_1,
+        roll_2: updateFrameDto.roll_2 ? +updateFrameDto.roll_2 : undefined,
+        roll_3: updateFrameDto.roll_3 ? +updateFrameDto.roll_3 : undefined,
+      },
+    });
     return FrameDto.fromEntity(updatedFrame);
   }
 }
