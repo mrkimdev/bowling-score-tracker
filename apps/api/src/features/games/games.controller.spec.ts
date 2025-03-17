@@ -5,6 +5,7 @@ import { PrismaService } from "@/core/services/prisma.service";
 import { randomUUID } from "crypto";
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended'
 import { GamesService } from "./games.service";
+import { InternalServerErrorException, NotFoundException } from "@nestjs/common";
 
 describe('GamesController', () => {
   let controller: GamesController;
@@ -80,6 +81,11 @@ describe('GamesController', () => {
       expect(game.ended_at).not.toBeDefined();
       expect(game.players).toEqual(expect.arrayContaining(['Hulk', 'Hawkeye', 'Wolvering', 'Deadpool']));
     });
+
+    it('should throw NotFoundException if game not found', async () => {
+      prismaService.game.findUnique.mockResolvedValue(null);
+      await expect(controller.findOne(randomUUID())).rejects.toThrow(NotFoundException);
+    });
   });
 
   describe('POST /games/:id/end', () => {
@@ -123,6 +129,20 @@ describe('GamesController', () => {
       expect(prismaService.game.update).toHaveBeenCalled();
       expect(prismaService.gameScore.createMany).toHaveBeenCalled();
       expect(prismaService.gameScore.findMany).toHaveBeenCalled();
+    });
+
+    it('should throw NotFoundException if game not found', async () => {
+      prismaService.game.findUnique.mockResolvedValue(null);
+      await expect(controller.endGame(randomUUID())).rejects.toThrow(NotFoundException);
+    });
+
+    it('should throw NotFoundException if game has no frames', async () => {
+      prismaService.game.findUnique.mockResolvedValue({
+        id: randomUUID(),
+        created_at: new Date(),
+        ended_at: null,
+      } as any);
+      await expect(controller.endGame(randomUUID())).rejects.toThrow(InternalServerErrorException);
     });
   });
 });
