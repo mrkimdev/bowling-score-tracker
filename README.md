@@ -110,6 +110,7 @@ model GameFrame {
   game_id     String
   game        Game    @relation(fields: [game_id], references: [id])
   player_order Int  
+  @@unique([game_id, frame_number, player_order])
 }
 
 model GameScore {
@@ -118,6 +119,7 @@ model GameScore {
   game_id      String
   game        Game    @relation(fields: [game_id], references: [id])
   player_order Int  
+  @@unique([game_id, player_order])
 }
 ```
 

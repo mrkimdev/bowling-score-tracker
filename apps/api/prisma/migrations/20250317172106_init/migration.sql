@@ -26,3 +26,9 @@ CREATE TABLE "GameScore" (
     "player_order" INTEGER NOT NULL,
     CONSTRAINT "GameScore_game_id_fkey" FOREIGN KEY ("game_id") REFERENCES "Game" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "GameFrame_game_id_frame_number_player_order_key" ON "GameFrame"("game_id", "frame_number", "player_order");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "GameScore_game_id_player_order_key" ON "GameScore"("game_id", "player_order");
