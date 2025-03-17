@@ -3,21 +3,25 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
+    "dev": "next dev --port 3001 --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --max-warnings 0",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "codegen:openapi": "openapi-typescript ./api.yaml --output src/api-generated/api.ts"
+    "typecheck": "tsc --noEmit",
+    "codegen:openapi": "openapi-typescript ./api.yaml --output lib/api-generated/api.ts"
   },
   "dependencies": {
     "@repo/ui": "*",
     "@repo/util": "*",
-    "next": "^14.1.1",
     "openapi-fetch": "^0.13.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "lucide-react": "^0.475.0",
+    "next": "^15.2.0",
+    "next-themes": "^0.4.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

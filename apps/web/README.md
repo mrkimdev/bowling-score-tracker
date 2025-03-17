@@ -6,12 +6,11 @@ This is the web application for the Bowling Game System.
 
 ```md
 apps/web/
-├── app/
+├── app/                  // app router folder
+├── components/           // shared components
+├── hooks/                // shared hooks
+├── lib/                  // common configs and utils
 │   ├── api-generated/    // code generated from api.yaml
-│   ├── components/       // atomic ui components (Button, Input, Form, Accordion, ... etc)
-│   ├── features/         // feature related stuffs (Pages, Components, Composables, Helpers, ... etc)
-│   ├── lib/              // common configs and utils
-├── public/               // public folders
 ├── next.config.js        // next custom types
 ├── next.config.js        // next config
 ├── package.json          // package.json

@@ -1,40 +1,12 @@
-import { Suspense } from 'react';
-import Image from 'next/image';
+import { Button } from "@repo/ui/components/button"
 
-import { Card } from '@repo/ui/card';
-import { Code } from '@repo/ui/code';
-import { Button } from '@repo/ui/button';
-
-import styles from './page.module.css';
-
-const RootPage = ({ params }: { params: { forTest?: boolean } }) => {
+export default function Page() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          examples/<Code className={styles.code}>with-nestjs</Code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            By{' '}
-            <Image
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              height={24}
-              priority
-              src="/vercel.svg"
-              width={100}
-            />
-          </a>
-        </div>
+    <div className="flex items-center justify-center min-h-svh">
+      <div className="flex flex-col items-center justify-center gap-4">
+        <h1 className="text-2xl font-bold">Hello World</h1>
+        <Button size="sm">Button</Button>
       </div>
-
-    </main>
-  );
-};
-
-export default RootPage;
+    </div>
+  )
+}
