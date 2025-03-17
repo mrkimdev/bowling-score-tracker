@@ -56,6 +56,10 @@ paths:
       responses:
         '201':
           description: New Game has been successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameDto'
       summary: Create a new game
       tags:
         - Games
@@ -110,6 +114,10 @@ paths:
       responses:
         '201':
           description: New Frame has been successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameDto'
       summary: Create a new frame
       tags:
         - Frames
@@ -131,6 +139,10 @@ paths:
       responses:
         '200':
           description: Frame has been successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameDto'
       summary: Update a frame
       tags:
         - Frames

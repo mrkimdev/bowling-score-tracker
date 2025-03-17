@@ -1,4 +1,5 @@
+import { GamePlay } from '@/app/game/_components/GamePlay';
 
-export default function GamePlay() {
-  return <div>GamePlay</div>
+export default function GamePlayPage() {
+  return <GamePlay />;
 }

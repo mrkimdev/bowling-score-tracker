@@ -29,7 +29,7 @@ export default function NewGamePage() {
   const { isPending, mutate } = useGameCreationMutation({
     onSuccess: (data) => {
       toast.success("Game created successfully")
-      router.push(`/game/play`)
+      router.push(`/game/play?gameId=${data.id}`);
     },
     onError: (error) => {
       toast.error("Unable to create game", { description: error.message })

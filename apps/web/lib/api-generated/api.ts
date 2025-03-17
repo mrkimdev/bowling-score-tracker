@@ -245,7 +245,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["GameDto"];
+                };
             };
         };
     };
@@ -311,7 +313,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["FrameDto"];
+                };
             };
         };
     };
@@ -335,7 +339,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["FrameDto"];
+                };
             };
         };
     };
