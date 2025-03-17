@@ -9,12 +9,13 @@
     "lint": "eslint . --max-warnings 0",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:e2e": "playwright test"
+    "codegen:openapi": "openapi-typescript ./api.yaml --output src/api-generated/api.ts"
   },
   "dependencies": {
     "@repo/ui": "*",
     "@repo/util": "*",
     "next": "^14.1.1",
+    "openapi-fetch": "^0.13.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -32,6 +33,7 @@
     "@types/react-dom": "^18.2.19",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "openapi-typescript": "^7.6.1",
     "typescript": "5.5.4"
   }
 }

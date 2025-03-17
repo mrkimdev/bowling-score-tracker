@@ -1,0 +1,216 @@
+openapi: 3.0.0
+paths:
+  /health:
+    get:
+      operationId: AppController_health
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+      summary: Check the health of the application
+      tags:
+        - App
+  /metrics:
+    get:
+      operationId: AppController_getMetrics
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      summary: Collect metrics from the application
+      tags:
+        - App
+  /v1/games:
+    get:
+      operationId: GamesController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: All Games have been successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GameDto'
+      summary: Get all games
+      tags:
+        - Games
+    post:
+      operationId: GamesController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGameDto'
+      responses:
+        '201':
+          description: New Game has been successfully created.
+      summary: Create a new game
+      tags:
+        - Games
+  /v1/games/{id}:
+    get:
+      operationId: GamesController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Game has been successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameDto'
+      summary: Get a game by ID
+      tags:
+        - Games
+  /v1/games/{id}/end:
+    post:
+      operationId: GamesController_endGame
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Game has been successfully ended.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameDto'
+      summary: End a game by ID
+      tags:
+        - Games
+  /v1/games/{id}/frames:
+    post:
+      operationId: FramesController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FrameDto'
+      responses:
+        '201':
+          description: New Frame has been successfully created.
+      summary: Create a new frame
+      tags:
+        - Frames
+  /v1/games/{id}/frames/{id}:
+    put:
+      operationId: FramesController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FrameDto'
+      responses:
+        '200':
+          description: Frame has been successfully updated.
+      summary: Update a frame
+      tags:
+        - Frames
+info:
+  title: Bowling Score Tracker
+  description: The Bowling Score Tracker API description
+  version: '1.0'
+  contact: {}
+tags:
+  - name: bowling-score-tracker
+    description: ''
+servers: []
+components:
+  schemas:
+    FrameDto:
+      type: object
+      properties:
+        frame_number:
+          type: number
+          description: The number of the frame
+        roll_1:
+          type: number
+          description: The first roll of the frame
+        roll_2:
+          type: number
+          description: The second roll of the frame
+        roll_3:
+          type: number
+          description: The third roll of the frame
+        game_id:
+          type: string
+          description: The ID of the game
+        player_order:
+          type: number
+          description: The order of the player
+      required:
+        - frame_number
+        - roll_1
+        - game_id
+        - player_order
+    GameDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the game
+        created_at:
+          type: string
+          description: The creation time of the game
+        ended_at:
+          type: string
+          description: The end time of the game
+        players:
+          description: The players of the game
+          type: array
+          items:
+            type: string
+        frames:
+          description: The frames of the game
+          type: array
+          items:
+            $ref: '#/components/schemas/FrameDto'
+        scores:
+          description: The scores of the game
+          type: array
+          items:
+            type: number
+      required:
+        - id
+        - created_at
+        - players
+        - frames
+        - scores
+    CreateGameDto:
+      type: object
+      properties:
+        players:
+          description: The players of the game
+          type: array
+          items:
+            type: string
+      required:
+        - players

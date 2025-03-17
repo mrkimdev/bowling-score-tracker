@@ -77,6 +77,7 @@ npm run build -w=web # build apps/web
 - [Turbo](https://turbo.build/repo) : Monorepo (to manage multiple apps & packages with sharing configs & logics)
 - [NestJS](https://nestjs.com/) : NodeJS Framework
 - [NextJS](https://nextjs.org/) : React Framework
+- [TailwindCSS](https://tailwindcss.com/) : CSS Framework
 - [Prisma](https://www.prisma.io/) : ORM
 - [Jest](https://jestjs.io/) : Unit Testing Framework
 - [Playwright](https://playwright.dev/) : E2E Testing

@@ -24,7 +24,6 @@ apps/api/
 - `npm test`            : run tests
 - `npm test:watch`      : run tests in watch mode
 - `npm test:debug`      : run tests with debug
-- `npm test:e2e`        : run e2e tests
 
 ## Environment Variables
 
