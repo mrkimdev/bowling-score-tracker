@@ -17,7 +17,7 @@ export class GamesController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new game' })
-  @ApiCreatedResponse({ description: 'New Game has been successfully created.'})
+  @ApiCreatedResponse({ type: GameDto, description: 'New Game has been successfully created.'})
   async create(@Body() createGameDto: CreateGameDto): Promise<GameDto> {
     return this.gamesService.create(createGameDto);
   }

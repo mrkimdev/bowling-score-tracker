@@ -10,14 +10,14 @@ export class FramesController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new frame' })
-  @ApiCreatedResponse({ description: 'New Frame has been successfully created.'})
+  @ApiCreatedResponse({ type: FrameDto, description: 'New Frame has been successfully created.'})
   async create(@Body() createFrameDto: FrameDto): Promise<FrameDto> {
     return this.framesService.create(createFrameDto);
   }
 
   @Put(':frameId')
   @ApiOperation({ summary: 'Update a frame' })
-  @ApiOkResponse({ description: 'Frame has been successfully updated.'}) 
+  @ApiOkResponse({ type: FrameDto, description: 'Frame has been successfully updated.'}) 
   async update(@Param('frameId') id: string, @Body() updateFrameDto: FrameDto): Promise<FrameDto> {
     return this.framesService.update(id, updateFrameDto);
   }
