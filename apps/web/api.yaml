@@ -59,11 +59,11 @@ paths:
       summary: Create a new game
       tags:
         - Games
-  /v1/games/{id}:
+  /v1/games/{gameId}:
     get:
       operationId: GamesController_findOne
       parameters:
-        - name: id
+        - name: gameId
           required: true
           in: path
           schema:
@@ -78,11 +78,11 @@ paths:
       summary: Get a game by ID
       tags:
         - Games
-  /v1/games/{id}/end:
+  /v1/games/{gameId}/end:
     post:
       operationId: GamesController_endGame
       parameters:
-        - name: id
+        - name: gameId
           required: true
           in: path
           schema:
@@ -97,7 +97,7 @@ paths:
       summary: End a game by ID
       tags:
         - Games
-  /v1/games/{id}/frames:
+  /v1/games/{gameId}/frames:
     post:
       operationId: FramesController_create
       parameters: []
@@ -113,11 +113,11 @@ paths:
       summary: Create a new frame
       tags:
         - Frames
-  /v1/games/{id}/frames/{id}:
+  /v1/games/{gameId}/frames/{frameId}:
     put:
       operationId: FramesController_update
       parameters:
-        - name: id
+        - name: frameId
           required: true
           in: path
           schema:

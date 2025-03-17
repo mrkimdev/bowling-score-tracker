@@ -16,10 +16,11 @@
   "dependencies": {
     "@repo/ui": "*",
     "@repo/util": "*",
-    "openapi-fetch": "^0.13.5",
     "lucide-react": "^0.475.0",
     "next": "^15.2.0",
     "next-themes": "^0.4.4",
+    "openapi-fetch": "^0.13.5",
+    "openapi-react-query": "^0.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

@@ -22,17 +22,17 @@ export class GamesController {
     return this.gamesService.create(createGameDto);
   }
 
-  @Get(':id')
+  @Get(':gameId')
   @ApiOperation({ summary: 'Get a game by ID' })
   @ApiOkResponse({ type: GameDto, description: 'Game has been successfully retrieved.'})
-  async findOne(@Param('id') id: string): Promise<GameDto> {
+  async findOne(@Param('gameId') id: string): Promise<GameDto> {
     return this.gamesService.findOne(id);
   }
 
-  @Post(':id/end')
+  @Post(':gameId/end')
   @ApiOperation({ summary: 'End a game by ID' })
   @ApiCreatedResponse({ type: GameDto, description: 'Game has been successfully ended.'})
-  async endGame(@Param('id') id: string): Promise<GameDto> {
+  async endGame(@Param('gameId') id: string): Promise<GameDto> {
     return this.gamesService.endGame(id);
   }
 }

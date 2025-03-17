@@ -28,7 +28,7 @@ describe('FramesController', () => {
     jest.clearAllMocks();
   });
 
-  describe('POST /games/:id/frames', () => {
+  describe('POST /games/:gameId/frames', () => {
     it('should create a frame', async () => {
       const newFrame = {
         game_id: '1',
@@ -56,7 +56,7 @@ describe('FramesController', () => {
     })
   })
 
-  describe('PUT /games/:id/frames/:frameId', () => {
+  describe('PUT /games/:gameId/frames/:frameId', () => {
     it('should update a frame', async () => {
        const existedFrame = {
         game_id: '1',

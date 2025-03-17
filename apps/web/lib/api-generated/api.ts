@@ -56,7 +56,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/games/{id}": {
+    "/v1/games/{gameId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -73,7 +73,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/games/{id}/end": {
+    "/v1/games/{gameId}/end": {
         parameters: {
             query?: never;
             header?: never;
@@ -90,7 +90,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/games/{id}/frames": {
+    "/v1/games/{gameId}/frames": {
         parameters: {
             query?: never;
             header?: never;
@@ -107,7 +107,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/games/{id}/frames/{id}": {
+    "/v1/games/{gameId}/frames/{frameId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -254,7 +254,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                id: string;
+                gameId: string;
             };
             cookie?: never;
         };
@@ -276,7 +276,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                id: string;
+                gameId: string;
             };
             cookie?: never;
         };
@@ -320,7 +320,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                id: string;
+                frameId: string;
             };
             cookie?: never;
         };
