@@ -1,14 +1,8 @@
 'use client';
 
-import { Loader2Icon } from 'lucide-react';
+import { Link, Loader2Icon } from 'lucide-react';
 import { useGameHistoryQuery } from '../_hooks/query';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionTrigger,
-  AccordionItem,
-} from '@repo/ui/components/accordion';
-import { ScoreSheet } from '../_components/ScoreSheet';
+import { Button } from '@repo/ui/components/button';
 
 export default function GameHistory() {
   const { data: games, isLoading } = useGameHistoryQuery();
@@ -23,15 +17,11 @@ export default function GameHistory() {
       ) : (
         <div className="flex flex-col gap-4">
           {games?.map((game) => (
-            <Accordion key={game.id} type="single">
-              <AccordionItem value={game.id}>
-                <AccordionTrigger>
-                  <AccordionContent>
-                    <ScoreSheet game={game} isReadOnly />
-                  </AccordionContent>
-                </AccordionTrigger>
-              </AccordionItem>
-            </Accordion>
+            <Button key={game.id} variant="outline" asChild>
+              <Link href={`/game/detail?gameId=${game.id}`}>
+                Game {game.id}
+              </Link>
+            </Button>
           ))}
         </div>
       )}

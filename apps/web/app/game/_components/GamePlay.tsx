@@ -19,7 +19,7 @@ export const GamePlay: FC = () => {
   const { mutate: endGame, isPending } = useGameEndMutation({
     onSuccess: () => {
       toast.success('Game ended successfully');
-      router.push('/');
+      router.push(`/game/detail?gameId=${gameId}`);
     },
     onError: (error) => {
       toast.error('Unable to end game', { description: error.message });
