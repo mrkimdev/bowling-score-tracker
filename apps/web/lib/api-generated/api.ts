@@ -141,6 +141,8 @@ export interface components {
             game_id: string;
             /** @description The order of the player */
             player_order: number;
+            /** @description The ID of the frame */
+            id: string;
         };
         GameDto: {
             /** @description The ID of the game */
@@ -159,6 +161,20 @@ export interface components {
         CreateGameDto: {
             /** @description The players of the game */
             players: string[];
+        };
+        CreateFrameDto: {
+            /** @description The number of the frame */
+            frame_number: number;
+            /** @description The first roll of the frame */
+            roll_1: number;
+            /** @description The second roll of the frame */
+            roll_2?: number;
+            /** @description The third roll of the frame */
+            roll_3?: number;
+            /** @description The ID of the game */
+            game_id: string;
+            /** @description The order of the player */
+            player_order: number;
         };
     };
     responses: never;
@@ -304,7 +320,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["FrameDto"];
+                "application/json": components["schemas"]["CreateFrameDto"];
             };
         };
         responses: {
@@ -314,7 +330,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FrameDto"];
+                    "application/json": components["schemas"]["CreateFrameDto"];
                 };
             };
         };

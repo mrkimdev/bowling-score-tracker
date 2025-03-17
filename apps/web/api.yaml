@@ -110,14 +110,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FrameDto'
+              $ref: '#/components/schemas/CreateFrameDto'
       responses:
         '201':
           description: New Frame has been successfully created.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FrameDto'
+                $ref: '#/components/schemas/CreateFrameDto'
       summary: Create a new frame
       tags:
         - Frames
@@ -178,11 +178,15 @@ components:
         player_order:
           type: number
           description: The order of the player
+        id:
+          type: string
+          description: The ID of the frame
       required:
         - frame_number
         - roll_1
         - game_id
         - player_order
+        - id
     GameDto:
       type: object
       properties:
@@ -226,3 +230,29 @@ components:
             type: string
       required:
         - players
+    CreateFrameDto:
+      type: object
+      properties:
+        frame_number:
+          type: number
+          description: The number of the frame
+        roll_1:
+          type: number
+          description: The first roll of the frame
+        roll_2:
+          type: number
+          description: The second roll of the frame
+        roll_3:
+          type: number
+          description: The third roll of the frame
+        game_id:
+          type: string
+          description: The ID of the game
+        player_order:
+          type: number
+          description: The order of the player
+      required:
+        - frame_number
+        - roll_1
+        - game_id
+        - player_order

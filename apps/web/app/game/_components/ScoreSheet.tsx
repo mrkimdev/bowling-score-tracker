@@ -50,10 +50,13 @@ export const ScoreSheet: FC<{ game: GameDto; isReadOnly?: boolean }> = ({
             {players.map((player, index) => (
               <TableCell key={player}>
                 <ScoreSheetCell
+                  game={game}
                   isReadOnly={isReadOnly}
                   frame={frameRows[frame]?.find(
                     (item) => item.player_order === index,
                   )}
+                  frameNumber={frame}
+                  playerOrder={index}
                   isLastFrame={frame === MAX_FRAMES}
                   onChange={(data) => {
                     setFrames((prev) => [...prev, data]);
