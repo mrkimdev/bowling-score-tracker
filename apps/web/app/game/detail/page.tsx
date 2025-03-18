@@ -6,8 +6,9 @@ import { Loader2Icon } from 'lucide-react';
 import { useGameDetailQuery } from '../_hooks/query';
 import { max } from 'es-toolkit/compat';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function GameDetail() {
+const GameDetail = () => {
   const searchParams = useSearchParams();
   const gameId = searchParams.get('gameId') || '';
   const { data: game, isLoading } = useGameDetailQuery(gameId);
@@ -42,5 +43,19 @@ export default function GameDetail() {
         </>
       )}
     </div>
+  );
+};
+
+export default function GameDetailPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center size-[200px] mx-auto">
+          <Loader2Icon className="size-10 animate-spin" />
+        </div>
+      }
+    >
+      <GameDetail />
+    </Suspense>
   );
 }

@@ -330,7 +330,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["CreateFrameDto"];
+                    "application/json": components["schemas"]["FrameDto"];
                 };
             };
         };

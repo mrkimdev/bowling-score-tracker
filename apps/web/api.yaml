@@ -117,7 +117,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateFrameDto'
+                $ref: '#/components/schemas/FrameDto'
       summary: Create a new frame
       tags:
         - Frames

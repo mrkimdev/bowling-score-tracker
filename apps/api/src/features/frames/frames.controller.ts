@@ -11,7 +11,7 @@ export class FramesController {
   @Post()
   @ApiOperation({ summary: 'Create a new frame' })
   @ApiCreatedResponse({
-    type: CreateFrameDto,
+    type: FrameDto,
     description: 'New Frame has been successfully created.',
   })
   async create(@Body() createFrameDto: CreateFrameDto): Promise<FrameDto> {
