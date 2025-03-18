@@ -11,7 +11,7 @@ export default function GameHistory() {
     <div className="flex flex-col gap-4 mx-auto">
       <h1 className="text-2xl font-bold text-center">Game History</h1>
       {isLoading ? (
-        <div className="flex justify-center items-center size-[200px]">
+        <div className="flex justify-center items-center size-[200px] mx-auto">
           <Loader2Icon className="size-10 animate-spin" />
         </div>
       ) : (

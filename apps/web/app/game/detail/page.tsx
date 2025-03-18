@@ -18,7 +18,7 @@ export default function GameDetail() {
   return (
     <div className="flex flex-col gap-4 mx-auto">
       {isLoading ? (
-        <div className="flex justify-center items-center size-[200px]">
+        <div className="flex justify-center items-center size-[200px] mx-auto">
           <Loader2Icon className="size-10 animate-spin" />
         </div>
       ) : (
