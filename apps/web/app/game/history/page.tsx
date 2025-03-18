@@ -1,8 +1,9 @@
 'use client';
 
-import { Link, Loader2Icon } from 'lucide-react';
+import { Loader2Icon } from 'lucide-react';
 import { useGameHistoryQuery } from '../_hooks/query';
 import { Button } from '@repo/ui/components/button';
+import Link from 'next/link';
 
 export default function GameHistory() {
   const { data: games, isLoading } = useGameHistoryQuery();
@@ -15,11 +16,11 @@ export default function GameHistory() {
           <Loader2Icon className="size-10 animate-spin" />
         </div>
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 mx-auto">
           {games?.map((game) => (
-            <Button key={game.id} variant="outline" asChild>
+            <Button key={game.id} variant={'link'} asChild>
               <Link href={`/game/detail?gameId=${game.id}`}>
-                Game {game.id}
+                Game #{game.id}
               </Link>
             </Button>
           ))}

@@ -26,8 +26,12 @@ export default function GameDetail() {
           {game ? (
             <>
               <h1 className="text-2xl font-bold text-center">
-                Game #{game.id}, Winner is {winner} with {winnerScore} scores
+                Game #{game.id}
               </h1>
+              <p className="text-center font-semibold">
+                Winner is {winner} with {winnerScore} scores
+              </p>
+
               <ScoreSheet game={game} isReadOnly />
             </>
           ) : (
