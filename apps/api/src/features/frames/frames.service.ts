@@ -3,7 +3,6 @@ import { PrismaService } from '@/core/services/prisma.service';
 import { CreateFrameDto, FrameDto } from './frame.dto';
 import { validateFrameData, MAX_FRAMES } from '@repo/util/bowling-score';
 
-const LAST_FRAME_INDEX = MAX_FRAMES - 1;
 @Injectable()
 export class FramesService {
   constructor(private readonly prisma: PrismaService) {}
@@ -12,7 +11,7 @@ export class FramesService {
     if (
       !validateFrameData(
         createFrameDto,
-        LAST_FRAME_INDEX === createFrameDto.frame_number,
+        MAX_FRAMES === createFrameDto.frame_number,
       )
     ) {
       throw new BadRequestException('Invalid frame data');
@@ -32,7 +31,7 @@ export class FramesService {
     if (
       !validateFrameData(
         updateFrameDto,
-        LAST_FRAME_INDEX === updateFrameDto.frame_number,
+        MAX_FRAMES === updateFrameDto.frame_number,
       )
     ) {
       throw new BadRequestException('Invalid frame data');

@@ -40,7 +40,7 @@ export const ScoreSheetCell: FC<{
       onChange(data);
     },
     onError(error) {
-      toast.error('Unable to create frame', { description: error.message });
+      toast.error('Unable to update frame', { description: error.message });
     },
   });
 
