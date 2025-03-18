@@ -10,6 +10,7 @@ import {
 } from '../_hooks/mutation';
 import { toast } from 'sonner';
 import { debounce } from 'es-toolkit';
+import { formatFrameValue, parseFrameValue } from '../_utils';
 
 export const ScoreSheetCell: FC<{
   game: GameDto;
@@ -55,11 +56,18 @@ export const ScoreSheetCell: FC<{
   const onSubmit = useCallback(
     (data: { roll_1: string; roll_2?: string; roll_3?: string }) => {
       console.log(data);
+      const roll_1_value = parseFrameValue(data.roll_1);
+      const roll_2_value = data.roll_2
+        ? parseFrameValue(data.roll_2, [data.roll_1])
+        : undefined;
+      const roll_3_value = data.roll_3
+        ? parseFrameValue(data.roll_3, [data.roll_1, data.roll_2 || '0'])
+        : undefined;
       const isValid = validateFrameData(
         {
-          roll_1: parseInt(data.roll_1),
-          roll_2: parseInt(data.roll_2 || '0'),
-          roll_3: parseInt(data.roll_3 || '0'),
+          roll_1: roll_1_value,
+          roll_2: roll_2_value,
+          roll_3: roll_3_value,
         },
         isLastFrame,
       );
@@ -74,9 +82,9 @@ export const ScoreSheetCell: FC<{
               frame_number: frameNumber,
               game_id: game.id,
               player_order: playerOrder,
-              roll_1: parseInt(data.roll_1),
-              roll_2: data.roll_2 ? parseInt(data.roll_2) : undefined,
-              roll_3: data.roll_3 ? parseInt(data.roll_3) : undefined,
+              roll_1: roll_1_value,
+              roll_2: roll_2_value,
+              roll_3: roll_3_value,
             },
             params: {
               path: {
@@ -90,9 +98,9 @@ export const ScoreSheetCell: FC<{
               frame_number: frameNumber,
               game_id: game.id,
               player_order: playerOrder,
-              roll_1: parseInt(data.roll_1),
-              roll_2: data.roll_2 ? parseInt(data.roll_2) : undefined,
-              roll_3: data.roll_3 ? parseInt(data.roll_3) : undefined,
+              roll_1: roll_1_value,
+              roll_2: roll_2_value,
+              roll_3: roll_3_value,
             },
           });
         }
@@ -117,22 +125,31 @@ export const ScoreSheetCell: FC<{
       <div className="flex w-full gap-2 items-center justify-start">
         <input
           {...register('roll_1')}
-          defaultValue={frame?.roll_1}
+          defaultValue={frame ? formatFrameValue(frame.roll_1) : ''}
           required
-          className="border-b outline-none w-5 text-center"
+          className="border-b outline-none w-5 text-center uppercase"
           readOnly={isReadOnly}
         />
         <input
           {...register('roll_2')}
-          defaultValue={frame?.roll_2}
-          className="border-b outline-none w-5 text-center"
+          defaultValue={
+            frame?.roll_2 ? formatFrameValue(frame.roll_2, [frame.roll_1]) : ''
+          }
+          className="border-b outline-none w-5 text-center uppercase"
           readOnly={isReadOnly}
         />
         {isLastFrame && (
           <input
             {...register('roll_3')}
-            defaultValue={frame?.roll_3}
-            className="border-b outline-none w-5 text-center"
+            defaultValue={
+              frame?.roll_2 && frame?.roll_3
+                ? formatFrameValue(frame.roll_3, [
+                    frame.roll_1,
+                    frame?.roll_2 || 0,
+                  ])
+                : ''
+            }
+            className="border-b outline-none w-5 text-center uppercase"
             readOnly={isReadOnly}
           />
         )}

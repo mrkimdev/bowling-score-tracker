@@ -59,7 +59,17 @@ export const ScoreSheet: FC<{ game: GameDto; isReadOnly?: boolean }> = ({
                   playerOrder={index}
                   isLastFrame={frame === MAX_FRAMES}
                   onChange={(data) => {
-                    setFrames((prev) => [...prev, data]);
+                    setFrames((prev) => {
+                      const isExisted = prev.find(
+                        (item) => item.id === data.id,
+                      );
+                      if (isExisted) {
+                        return prev.map((item) =>
+                          item.id === data.id ? data : item,
+                        );
+                      }
+                      return [...prev, data];
+                    });
                   }}
                 />
               </TableCell>
