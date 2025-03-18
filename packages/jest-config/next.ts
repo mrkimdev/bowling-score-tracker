@@ -10,6 +10,7 @@ const createJestConfig = nextJest({
 
 const config = {
   ...baseConfig,
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleFileExtensions: [...baseConfig.moduleFileExtensions, 'jsx', 'tsx'],
 } as const satisfies Config;
 
