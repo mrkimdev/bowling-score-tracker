@@ -12,6 +12,17 @@ First, install the dependencies
 npm install
 ```
 
+Second, create .env variables
+
+```bash
+cd apps/web
+cp .env.example .env
+
+cd ../api
+cp .env.example .env
+cd ../../
+```
+
 Then, run the development server
 
 ```bash
