@@ -28,3 +28,5 @@ apps/api/
 ## Environment Variables
 
 - `DATABASE_URL`        : database url
+- `APP_VERSION`         : app version
+- `APP_ENV`             : app environment (development, production, staging)

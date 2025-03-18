@@ -29,6 +29,6 @@ apps/web/
 
 ## Environment Variables
 
-- `NEXT_CLIENT_API_URL`      : API URL
-- `NEXT_APP_VERSION`         : APP VERSION
-- `NEXT_APP_ENV`             : APP ENVIRONMENT (development, production, staging)
+- `NEXT_PUBLIC_CLIENT_API_URL` : API URL
+- `NEXT_PUBLIC_APP_VERSION`    : APP VERSION
+- `APP_ENV`                    : APP ENVIRONMENT (development, production, staging)
