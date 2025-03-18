@@ -1,13 +1,12 @@
 import { render } from '@testing-library/react';
-import RootLayout from './layout';
+import GameLayout from './layout';
 
-describe('RootLayout', () => {
+describe('GameLayout', () => {
   it('should render children within providers', () => {
     const { getByText } = render(
-      <RootLayout>
+      <GameLayout>
         <div>Test Child</div>
-      </RootLayout>,
-      { container: document },
+      </GameLayout>,
     );
 
     expect(getByText('Test Child')).toBeInTheDocument();
