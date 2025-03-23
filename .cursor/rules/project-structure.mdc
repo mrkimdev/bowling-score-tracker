@@ -1,0 +1,32 @@
+---
+description: Enforce convention for Project Structure and Configuration Tools
+globs: 
+alwaysApply: true
+---
+# Project Structure Conventions
+
+## Monorepo Organization
+- /apps: Application code
+  - /api: Backend NestJS application
+  - /web: Frontend React application
+- /packages: Shared libraries
+  - /ui: Shared UI components
+  - /utils: Shared utilities
+
+## Import Conventions
+- Use @repo/* aliases for internal packages
+- Use relative imports within apps
+- Avoid circular dependencies
+- Export public API from index files
+
+## TypeScript Configuration
+- Extend base configs from @repo/typescript-config
+- Use strict mode
+- Enable modern module resolution
+- Share types via workspace packages
+
+## Package Management
+- Use workspace dependencies
+- Define clear package boundaries
+- Share devDependencies at root
+- Version lock critical dependencies

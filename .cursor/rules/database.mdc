@@ -1,0 +1,27 @@
+---
+description: Enforce specific convention for DB Schema
+globs: **/*.prisma
+alwaysApply: false
+---
+# Database Conventions
+
+## Model Naming
+- Use PascalCase for model names (e.g., `Game`, `GameFrame`)
+- Use snake_case for field names (e.g., `created_at`, `player_order`)
+- Prefix related model names with parent model (e.g., `GameFrame`, `GameScore`)
+
+## ID Fields
+- Use UUID as primary keys
+- Field name: `id`
+- Type: `String` with `@id @default(uuid())`
+
+## Relationships
+- Use singular form for model names
+- Foreign key format: `model_id` in snake_case
+- Always define explicit relations using `@relation`
+- Use unique constraints for composite keys
+
+## Timestamps
+- Use `created_at` for creation timestamp
+- Use `ended_at` (optional) for completion timestamp
+- Type: `DateTime`
